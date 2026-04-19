@@ -1,13 +1,13 @@
 import { connectDB } from "@/lib/db";
 import { User } from "@/models/user";
 import { followerQueue } from "@/lib/queue";
+import { getProfileInfo } from "@/lib/instagram";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
   try {
     const { email, instaUsername } = await req.json();
 
-    // Basic validation
     if (!email || !instaUsername) {
       return NextResponse.json(
         { error: "Email and Instagram username are required" },
@@ -23,7 +23,14 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // Sanitize username (remove @ if user typed it)
+    // 1. URL Validation Check
+    if (instaUsername.includes("instagram.com") || instaUsername.includes("http")) {
+      return NextResponse.json(
+        { error: "Please enter only your username (e.g. 'pratyushsingha'), not the full URL." },
+        { status: 400 },
+      );
+    }
+
     const cleanUsername = instaUsername.replace(/^@/, "").toLowerCase().trim();
 
     if (!/^[a-zA-Z0-9_.]{1,30}$/.test(cleanUsername)) {
@@ -33,9 +40,24 @@ export async function POST(req: NextRequest) {
       );
     }
 
+    try {
+      const profile = await getProfileInfo(cleanUsername);
+      
+      if (!profile.exists) {
+        return NextResponse.json({ error: "Instagram account not found. Please check the spelling." }, { status: 400 });
+      }
+
+      if (profile.isPrivate) {
+        return NextResponse.json({ 
+          error: "Your account is private. We can only track public accounts. Please make it public and try again." 
+        }, { status: 400 });
+      }
+    } catch (err: any) {
+      console.error("[Signup] Profile check skipped due to error:", err.message);
+    }
+
     await connectDB();
 
-    // Check if email already exists
     const existing = await User.findOne({ email: email.toLowerCase() });
     if (existing) {
       if (!existing.isActive) {
@@ -43,7 +65,6 @@ export async function POST(req: NextRequest) {
         existing.instaUsername = cleanUsername;
         await existing.save();
 
-        // Trigger immediate check for returning user
         await followerQueue.add(`check-${existing._id}`, {
           userId: existing._id.toString(),
           email: existing.email,
@@ -61,7 +82,6 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // Create new user
     const user = new User({
       email: email.toLowerCase(),
       instaUsername: cleanUsername,
@@ -69,7 +89,6 @@ export async function POST(req: NextRequest) {
     });
     await user.save();
 
-    // TRIGGER IMMEDIATE CHECK & WELCOME EMAIL
     await followerQueue.add(`check-${user._id}`, {
       userId: user._id.toString(),
       email: user.email,

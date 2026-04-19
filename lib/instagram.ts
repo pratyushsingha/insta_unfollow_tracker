@@ -105,3 +105,30 @@ export async function fetchFollowers(
   // If we exhaust the loop, it means all tokens failed with rate limit/credit errors
   throw new Error(`[Apify] All available API tokens exhausted or rate-limited for @${instaUsername}.`);
 }
+
+export async function getProfileInfo(instaUsername: string) {
+  const client = getClient();
+
+  try {
+    const run = await client.actor("dSCLg0C3YEZ83HzYX").call({
+      usernames: [instaUsername]
+    });
+
+    const { items } = await client.dataset(run.defaultDatasetId).listItems();
+    
+    if (!items || items.length === 0) {
+      return { exists: false };
+    }
+
+    const profile = items[0] as any;
+    
+    return {
+      isPrivate: profile.private, 
+      exists: true,
+      username: profile.username
+    };
+  } catch (err: any) {
+    console.error("[Instagram Profile Check Error]:", err);
+    throw new Error("Unable to verify account at this time. Please try again.");
+  }
+}
