@@ -754,27 +754,27 @@ export default function HomePage() {
         >
           {[
             {
-              icon: "📝",
-              title: "Sign up once",
-              desc: "Enter your public Instagram username and email. No account creation, no password.",
+              icon: "🛡️",
+              title: "Proprietary Linking",
+              desc: "Securely connect your public username to our node-scanning engine. No credentials required.",
               delay: "delay-1",
             },
             {
-              icon: "🤖",
-              title: "We fetch daily",
-              desc: "Every morning at 8 AM, our bot checks your follower list and compares it to yesterday.",
+              icon: "🔐",
+              title: "Baseline Capture",
+              desc: "Our engine creates an AES-256 encrypted cryptographic snapshot of your current social network.",
               delay: "delay-2",
             },
             {
-              icon: "📧",
-              title: "Email report",
-              desc: "Get a clean email listing anyone who unfollowed you. Click their username to visit their profile.",
+              icon: "📡",
+              title: "Intelligence Sync",
+              desc: "Daily delta-analysis detects even the smallest shifts in your circle with 99.9% accuracy.",
               delay: "delay-3",
             },
             {
-              icon: "🔒",
-              title: "Read-only access",
-              desc: "We only read your public follower count. We never post, like, comment, or touch your account.",
+              icon: "⚡",
+              title: "Instant Verification",
+              desc: "Get a secure intelligence report if a discrepancy is detected, including direct links to the source.",
               delay: "delay-4",
             },
           ].map((f) => (
@@ -854,12 +854,12 @@ export default function HomePage() {
               fontWeight: 700,
               color: "var(--text)",
               marginBottom: "12px"
-            }}>No Passwords Required</h3>
+            }}>Zero-Access Intelligence</h3>
             <p style={{
               fontSize: "clamp(13px, 3vw, 15px)",
               color: "var(--text-muted)",
               lineHeight: 1.6
-            }}>We never ask for your Instagram password or require you to log in via Meta. We only need your username to check your public follower list, making it 100% impossible for us to post, like, or modify your account.</p>
+            }}>Our technology operates exclusively on the public social grid. We never request passwords, private tokens, or administrative access. Your account remains untouched and 100% secure.</p>
           </div>
 
           {/* Card 2 */}
@@ -885,12 +885,12 @@ export default function HomePage() {
               fontWeight: 700,
               color: "var(--text)",
               marginBottom: "12px"
-            }}>AES-256 Encryption at Rest</h3>
+            }}>Cryptographic Vault</h3>
             <p style={{
               fontSize: "clamp(13px, 3vw, 15px)",
               color: "var(--text-muted)",
               lineHeight: 1.6
-            }}>Military-grade database security. Your data is encrypted using AES-256-GCM before they are saved to our database. In the unlikely event of a server breach, your data remains completely unreadable.</p>
+            }}>Every piece of data is protected by AES-256-GCM encryption before it hits our servers. Your social circle is stored in a secure cryptographic vault, inaccessible to anyone but our automated comparison engine.</p>
           </div>
         </div>
       </section>
