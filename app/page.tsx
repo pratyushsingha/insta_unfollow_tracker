@@ -33,7 +33,7 @@ function Ticker() {
           overflow: hidden;
           border-top: 1px solid var(--border);
           border-bottom: 1px solid var(--border);
-          padding: 12px 0;
+          padding: clamp(8px, 2vw, 12px) 0;
           background: var(--surface);
           mask-image: linear-gradient(
             to right,
@@ -53,12 +53,17 @@ function Ticker() {
           align-items: center;
           gap: 8px;
           white-space: nowrap;
-          padding: 0 32px;
-          font-size: 12px;
+          padding: 0 clamp(16px, 4vw, 32px);
+          font-size: clamp(10px, 2.5vw, 12px);
           font-weight: 500;
           letter-spacing: 0.5px;
           color: var(--text-muted);
           font-family: "DM Sans", sans-serif;
+        }
+        @media (max-width: 640px) {
+          .ticker-track {
+            animation: ticker 30s linear infinite;
+          }
         }
         .ticker-dot {
           width: 4px;
@@ -90,18 +95,27 @@ function FeatureCard({
         background: "var(--surface)",
         border: "1px solid var(--border)",
         borderRadius: "14px",
-        padding: "28px",
+        padding: "clamp(20px, 5vw, 28px)",
+        transition: "transform 0.3s, border-color 0.3s",
+      }}
+      onMouseEnter={(e) => {
+        e.currentTarget.style.transform = "translateY(-4px)";
+        e.currentTarget.style.borderColor = "var(--accent)";
+      }}
+      onMouseLeave={(e) => {
+        e.currentTarget.style.transform = "translateY(0)";
+        e.currentTarget.style.borderColor = "var(--border)";
       }}
     >
       <div
         style={{
-          fontSize: "28px",
-          marginBottom: "14px",
+          fontSize: "clamp(24px, 6vw, 28px)",
+          marginBottom: "clamp(10px, 3vw, 14px)",
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          width: "52px",
-          height: "52px",
+          width: "clamp(44px, 10vw, 52px)",
+          height: "clamp(44px, 10vw, 52px)",
           background: "var(--accent-glow)",
           borderRadius: "12px",
           border: "1px solid rgba(129,140,248,0.2)",
@@ -112,7 +126,7 @@ function FeatureCard({
       <h3
         style={{
           fontFamily: "Syne, sans-serif",
-          fontSize: "16px",
+          fontSize: "clamp(14px, 3.5vw, 16px)",
           fontWeight: 700,
           color: "var(--text)",
           marginBottom: "8px",
@@ -122,7 +136,7 @@ function FeatureCard({
       </h3>
       <p
         style={{
-          fontSize: "14px",
+          fontSize: "clamp(13px, 3vw, 14px)",
           color: "var(--text-muted)",
           lineHeight: "1.6",
         }}
@@ -174,6 +188,13 @@ export default function HomePage() {
 
   return (
     <div style={{ minHeight: "100vh", background: "var(--bg)" }}>
+      <style jsx global>{`
+        @media (max-width: 768px) {
+          html {
+            font-size: 14px;
+          }
+        }
+      `}</style>
       {/* Nav */}
       <nav
         style={{
@@ -189,8 +210,8 @@ export default function HomePage() {
           style={{
             maxWidth: "1100px",
             margin: "0 auto",
-            padding: "0 24px",
-            height: "60px",
+            padding: "0 16px",
+            height: "56px",
             display: "flex",
             alignItems: "center",
             justifyContent: "space-between",
@@ -200,7 +221,7 @@ export default function HomePage() {
             style={{
               fontFamily: "Syne, sans-serif",
               fontWeight: 800,
-              fontSize: "18px",
+              fontSize: "clamp(16px, 4vw, 18px)",
               letterSpacing: "-0.5px",
               color: "var(--text)",
             }}
@@ -210,9 +231,20 @@ export default function HomePage() {
           <Link
             href="/unsubscribe"
             style={{
-              fontSize: "13px",
+              fontSize: "clamp(11px, 3vw, 13px)",
               color: "var(--text-muted)",
               textDecoration: "none",
+              padding: "8px 12px",
+              borderRadius: "6px",
+              transition: "all 0.2s",
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.background = "rgba(99,102,241,0.1)";
+              e.currentTarget.style.color = "var(--accent)";
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.background = "transparent";
+              e.currentTarget.style.color = "var(--text-muted)";
             }}
           >
             Unsubscribe
@@ -225,8 +257,8 @@ export default function HomePage() {
         style={{
           position: "relative",
           overflow: "hidden",
-          paddingTop: "100px",
-          paddingBottom: "80px",
+          paddingTop: "clamp(60px, 12vw, 100px)",
+          paddingBottom: "clamp(40px, 8vw, 80px)",
         }}
       >
         {/* Background glow blobs */}
@@ -260,7 +292,7 @@ export default function HomePage() {
           style={{
             maxWidth: "720px",
             margin: "0 auto",
-            padding: "0 24px",
+            padding: "0 clamp(16px, 5vw, 24px)",
             textAlign: "center",
             position: "relative",
           }}
@@ -271,13 +303,13 @@ export default function HomePage() {
             style={{
               display: "inline-flex",
               alignItems: "center",
-              gap: "8px",
+              gap: "6px",
               background: "rgba(99,102,241,0.1)",
               border: "1px solid rgba(99,102,241,0.3)",
               borderRadius: "100px",
-              padding: "6px 16px",
-              marginBottom: "28px",
-              fontSize: "12px",
+              padding: "clamp(5px, 1.5vw, 6px) clamp(12px, 3vw, 16px)",
+              marginBottom: "clamp(16px, 4vw, 28px)",
+              fontSize: "clamp(10px, 2.5vw, 12px)",
               fontWeight: 600,
               color: "var(--accent)",
               letterSpacing: "1px",
@@ -291,6 +323,7 @@ export default function HomePage() {
                 borderRadius: "50%",
                 background: "var(--green)",
                 animation: "pulse-glow 2s ease infinite",
+                flexShrink: 0,
               }}
             />
             Free · No login required
@@ -301,12 +334,12 @@ export default function HomePage() {
             className="hidden-initially animate-fade-up delay-2"
             style={{
               fontFamily: "Syne, sans-serif",
-              fontSize: "clamp(40px, 7vw, 72px)",
+              fontSize: "clamp(32px, 8vw, 56px)",
               fontWeight: 800,
-              lineHeight: 1.05,
-              letterSpacing: "-2px",
+              lineHeight: 1.1,
+              letterSpacing: "clamp(-1px, -0.15vw, -2px)",
               color: "var(--text)",
-              marginBottom: "24px",
+              marginBottom: "clamp(16px, 4vw, 24px)",
             }}
           >
             Know exactly who{" "}
@@ -326,12 +359,12 @@ export default function HomePage() {
           <p
             className="hidden-initially animate-fade-up delay-3"
             style={{
-              fontSize: "18px",
+              fontSize: "clamp(14px, 3.5vw, 18px)",
               color: "var(--text-muted)",
               lineHeight: 1.7,
-              marginBottom: "48px",
+              marginBottom: "clamp(24px, 6vw, 48px)",
               maxWidth: "520px",
-              margin: "0 auto 48px",
+              margin: "0 auto clamp(24px, 6vw, 48px)",
             }}
           >
             Enter your public Instagram username and email. We&apos;ll check
@@ -346,8 +379,8 @@ export default function HomePage() {
               background: "var(--surface)",
               border: "1px solid var(--border)",
               borderRadius: "20px",
-              padding: "36px",
-              maxWidth: "480px",
+              padding: "clamp(24px, 6vw, 36px)",
+              maxWidth: "clamp(280px, 90vw, 480px)",
               margin: "0 auto",
               position: "relative",
             }}
@@ -369,18 +402,30 @@ export default function HomePage() {
             {state === "success" ? (
               <div
                 style={{
-                  padding: "16px 0",
-                  animation: "fadeUp 0.4s ease",
+                  padding: "clamp(12px, 3vw, 16px) 0",
+                  animation: "fadeUp 0.5s ease",
                 }}
               >
-                <div style={{ fontSize: "48px", marginBottom: "16px" }}>🎉</div>
+                <div
+                  style={{
+                    fontSize: "clamp(36px, 10vw, 48px)",
+                    marginBottom: "16px",
+                    animation: "float-up 2s ease infinite",
+                  }}
+                >
+                  🎉
+                </div>
                 <h3
                   style={{
                     fontFamily: "Syne, sans-serif",
-                    fontSize: "20px",
+                    fontSize: "clamp(18px, 5vw, 20px)",
                     fontWeight: 700,
                     marginBottom: "12px",
                     color: "var(--text)",
+                    background:
+                      "linear-gradient(135deg, #818cf8 0%, #6366f1 100%)",
+                    WebkitBackgroundClip: "text",
+                    WebkitTextFillColor: "transparent",
                   }}
                 >
                   You&apos;re all set!
@@ -388,8 +433,9 @@ export default function HomePage() {
                 <p
                   style={{
                     color: "var(--text-muted)",
-                    fontSize: "14px",
+                    fontSize: "clamp(13px, 3vw, 14px)",
                     lineHeight: 1.6,
+                    marginBottom: "16px",
                   }}
                 >
                   {message}
@@ -402,9 +448,28 @@ export default function HomePage() {
                     border: "1px solid var(--border-2)",
                     borderRadius: "8px",
                     color: "var(--text-muted)",
-                    padding: "8px 20px",
-                    fontSize: "13px",
+                    padding: "clamp(8px, 2vw, 8px) clamp(16px, 4vw, 20px)",
+                    fontSize: "clamp(12px, 3vw, 13px)",
                     cursor: "pointer",
+                    transition: "all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1)",
+                    minHeight: "40px",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.background = "rgba(99,102,241,0.1)";
+                    e.currentTarget.style.borderColor = "var(--accent)";
+                    e.currentTarget.style.color = "var(--accent)";
+                    (e.currentTarget as HTMLButtonElement).style.transform =
+                      "translateY(-2px)";
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.background = "transparent";
+                    e.currentTarget.style.borderColor = "var(--border-2)";
+                    e.currentTarget.style.color = "var(--text-muted)";
+                    (e.currentTarget as HTMLButtonElement).style.transform =
+                      "translateY(0)";
                   }}
                 >
                   Track another account
@@ -416,7 +481,7 @@ export default function HomePage() {
                   <label
                     style={{
                       display: "block",
-                      fontSize: "12px",
+                      fontSize: "clamp(10px, 2.5vw, 12px)",
                       fontWeight: 600,
                       letterSpacing: "0.5px",
                       textTransform: "uppercase",
@@ -435,7 +500,7 @@ export default function HomePage() {
                         transform: "translateY(-50%)",
                         color: "var(--accent)",
                         fontWeight: 600,
-                        fontSize: "15px",
+                        fontSize: "clamp(13px, 3.5vw, 15px)",
                         pointerEvents: "none",
                       }}
                     >
@@ -452,24 +517,26 @@ export default function HomePage() {
                         background: "var(--bg)",
                         border: "1px solid var(--border-2)",
                         borderRadius: "10px",
-                        padding: "13px 14px 13px 32px",
-                        fontSize: "15px",
+                        padding: "clamp(11px, 3vw, 13px) 14px clamp(11px, 3vw, 13px) 32px",
+                        fontSize: "clamp(14px, 3.5vw, 15px)",
                         color: "var(--text)",
                         outline: "none",
-                        transition: "border-color 0.2s",
+                        transition: "border-color 0.2s, box-shadow 0.2s",
                         fontFamily: "DM Sans, sans-serif",
                       }}
-                      onFocus={(e) =>
-                        (e.target.style.borderColor = "var(--accent)")
-                      }
-                      onBlur={(e) =>
-                        (e.target.style.borderColor = "var(--border-2)")
-                      }
+                      onFocus={(e) => {
+                        e.target.style.borderColor = "var(--accent)";
+                        e.target.style.boxShadow = "0 0 0 3px rgba(99, 102, 241, 0.1)";
+                      }}
+                      onBlur={(e) => {
+                        e.target.style.borderColor = "var(--border-2)";
+                        e.target.style.boxShadow = "none";
+                      }}
                     />
                   </div>
                   <p
                     style={{
-                      fontSize: "11px",
+                      fontSize: "clamp(10px, 2.5vw, 11px)",
                       color: "var(--text-dim)",
                       marginTop: "6px",
                     }}
@@ -482,7 +549,7 @@ export default function HomePage() {
                   <label
                     style={{
                       display: "block",
-                      fontSize: "12px",
+                      fontSize: "clamp(10px, 2.5vw, 12px)",
                       fontWeight: 600,
                       letterSpacing: "0.5px",
                       textTransform: "uppercase",
@@ -503,19 +570,21 @@ export default function HomePage() {
                       background: "var(--bg)",
                       border: "1px solid var(--border-2)",
                       borderRadius: "10px",
-                      padding: "13px 14px",
-                      fontSize: "15px",
+                      padding: "clamp(11px, 3vw, 13px) 14px",
+                      fontSize: "clamp(14px, 3.5vw, 15px)",
                       color: "var(--text)",
                       outline: "none",
-                      transition: "border-color 0.2s",
+                      transition: "border-color 0.2s, box-shadow 0.2s",
                       fontFamily: "DM Sans, sans-serif",
                     }}
-                    onFocus={(e) =>
-                      (e.target.style.borderColor = "var(--accent)")
-                    }
-                    onBlur={(e) =>
-                      (e.target.style.borderColor = "var(--border-2)")
-                    }
+                    onFocus={(e) => {
+                      e.target.style.borderColor = "var(--accent)";
+                      e.target.style.boxShadow = "0 0 0 3px rgba(99, 102, 241, 0.1)";
+                    }}
+                    onBlur={(e) => {
+                      e.target.style.borderColor = "var(--border-2)";
+                      e.target.style.boxShadow = "none";
+                    }}
                   />
                 </div>
 
@@ -523,15 +592,20 @@ export default function HomePage() {
                   <div
                     style={{
                       background: "rgba(248,113,113,0.08)",
-                      border: "1px solid rgba(248,113,113,0.25)",
+                      border: "1px solid rgba(248,113,113,0.3)",
                       borderRadius: "8px",
                       padding: "12px 14px",
                       marginBottom: "16px",
-                      fontSize: "13px",
+                      fontSize: "clamp(12px, 3vw, 13px)",
                       color: "var(--red)",
                       textAlign: "left",
+                      animation: "slideInLeft 0.3s ease",
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "8px",
                     }}
                   >
+                    <span style={{ fontSize: "16px" }}>⚠️</span>
                     {message}
                   </div>
                 )}
@@ -547,30 +621,74 @@ export default function HomePage() {
                         : "linear-gradient(135deg, #6366f1, #818cf8)",
                     border: "none",
                     borderRadius: "10px",
-                    padding: "14px",
-                    fontSize: "15px",
+                    padding: "clamp(12px, 3vw, 14px)",
+                    fontSize: "clamp(14px, 3.5vw, 15px)",
                     fontWeight: 700,
                     color: "#fff",
                     cursor: state === "loading" ? "not-allowed" : "pointer",
-                    transition: "opacity 0.2s, transform 0.1s",
+                    transition: "all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1)",
                     fontFamily: "Syne, sans-serif",
                     letterSpacing: "0.3px",
+                    minHeight: "44px",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    boxShadow:
+                      state === "loading"
+                        ? "none"
+                        : "0 4px 20px rgba(99, 102, 241, 0.2)",
                   }}
                   onMouseEnter={(e) => {
-                    if (state !== "loading")
-                      (e.currentTarget as HTMLButtonElement).style.opacity =
-                        "0.9";
+                    if (state !== "loading") {
+                      (e.currentTarget as HTMLButtonElement).style.transform =
+                        "translateY(-2px)";
+                      (e.currentTarget as HTMLButtonElement).style.boxShadow =
+                        "0 8px 32px rgba(99, 102, 241, 0.35)";
+                    }
                   }}
                   onMouseLeave={(e) => {
-                    (e.currentTarget as HTMLButtonElement).style.opacity = "1";
+                    (e.currentTarget as HTMLButtonElement).style.transform =
+                      "translateY(0)";
+                    (e.currentTarget as HTMLButtonElement).style.boxShadow =
+                      "0 4px 20px rgba(99, 102, 241, 0.2)";
+                  }}
+                  onMouseDown={(e) => {
+                    if (state !== "loading")
+                      (e.currentTarget as HTMLButtonElement).style.transform =
+                        "translateY(1px)";
+                  }}
+                  onMouseUp={(e) => {
+                    if (state !== "loading")
+                      (e.currentTarget as HTMLButtonElement).style.transform =
+                        "translateY(-2px)";
                   }}
                 >
-                  {state === "loading" ? "Setting up..." : "Start Tracking →"}
+                  {state === "loading" ? (
+                    <span
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        gap: "8px",
+                      }}
+                    >
+                      <span
+                        style={{
+                          display: "inline-block",
+                          animation: "float-up 1.5s ease infinite",
+                        }}
+                      >
+                        ⏳
+                      </span>
+                      Setting up...
+                    </span>
+                  ) : (
+                    "Start Tracking →"
+                  )}
                 </button>
 
                 <p
                   style={{
-                    fontSize: "11px",
+                    fontSize: "clamp(10px, 2.5vw, 11px)",
                     color: "var(--text-dim)",
                     marginTop: "14px",
                     textAlign: "center",
@@ -586,27 +704,27 @@ export default function HomePage() {
       </section>
 
       {/* Ticker */}
-      <div style={{ marginTop: "60px" }}>
+      <div style={{ marginTop: "clamp(40px, 8vw, 60px)" }}>
         <Ticker />
       </div>
 
       {/* How it works */}
       <section
         style={{
-          padding: "100px 24px",
+          padding: "clamp(60px, 12vw, 100px) clamp(16px, 5vw, 24px)",
           maxWidth: "1100px",
           margin: "0 auto",
         }}
       >
-        <div style={{ textAlign: "center", marginBottom: "64px" }}>
+        <div style={{ textAlign: "center", marginBottom: "clamp(40px, 8vw, 64px)" }}>
           <p
             style={{
-              fontSize: "12px",
+              fontSize: "clamp(10px, 2.5vw, 12px)",
               fontWeight: 700,
-              letterSpacing: "3px",
+              letterSpacing: "2px",
               textTransform: "uppercase",
               color: "var(--accent)",
-              marginBottom: "16px",
+              marginBottom: "12px",
             }}
           >
             How it works
@@ -614,10 +732,13 @@ export default function HomePage() {
           <h2
             style={{
               fontFamily: "Syne, sans-serif",
-              fontSize: "clamp(28px, 4vw, 44px)",
+              fontSize: "clamp(28px, 6vw, 44px)",
               fontWeight: 800,
               letterSpacing: "-1px",
-              color: "var(--text)",
+              background:
+                "linear-gradient(135deg, var(--text) 0%, var(--text-muted) 100%)",
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
             }}
           >
             Dead simple. Fully automated.
@@ -627,8 +748,8 @@ export default function HomePage() {
         <div
           style={{
             display: "grid",
-            gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))",
-            gap: "20px",
+            gridTemplateColumns: "repeat(auto-fit, minmax(clamp(150px, 40vw, 240px), 1fr))",
+            gap: "clamp(16px, 4vw, 20px)",
           }}
         >
           {[
@@ -665,24 +786,24 @@ export default function HomePage() {
       {/* Security & Privacy */}
       <section
         style={{
-          padding: "80px 24px",
+          padding: "clamp(50px, 10vw, 80px) clamp(16px, 5vw, 24px)",
           maxWidth: "1100px",
           margin: "0 auto",
           background: "rgba(99,102,241,0.03)",
           borderRadius: "24px",
           border: "1px solid rgba(99,102,241,0.1)",
-          marginBottom: "80px"
+          marginBottom: "clamp(50px, 10vw, 80px)"
         }}
       >
-        <div style={{ textAlign: "center", marginBottom: "48px" }}>
+        <div style={{ textAlign: "center", marginBottom: "clamp(32px, 8vw, 48px)" }}>
           <p
             style={{
-              fontSize: "12px",
+              fontSize: "clamp(10px, 2.5vw, 12px)",
               fontWeight: 700,
-              letterSpacing: "3px",
+              letterSpacing: "2px",
               textTransform: "uppercase",
               color: "var(--accent)",
-              marginBottom: "16px",
+              marginBottom: "12px",
             }}
           >
             Your Data is Safe
@@ -690,10 +811,13 @@ export default function HomePage() {
           <h2
             style={{
               fontFamily: "Syne, sans-serif",
-              fontSize: "clamp(28px, 4vw, 44px)",
+              fontSize: "clamp(28px, 6vw, 44px)",
               fontWeight: 800,
               letterSpacing: "-1px",
-              color: "var(--text)",
+              background:
+                "linear-gradient(135deg, #818cf8 0%, #6366f1 100%)",
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
             }}
           >
             Security by Design
@@ -703,8 +827,8 @@ export default function HomePage() {
         <div
           style={{
             display: "grid",
-            gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
-            gap: "24px",
+            gridTemplateColumns: "repeat(auto-fit, minmax(clamp(250px, 45vw, 280px), 1fr))",
+            gap: "clamp(16px, 4vw, 24px)",
           }}
         >
           {/* Card 1 */}
@@ -712,18 +836,27 @@ export default function HomePage() {
             background: "var(--surface)",
             border: "1px solid var(--border)",
             borderRadius: "16px",
-            padding: "32px"
+            padding: "clamp(20px, 5vw, 32px)",
+            transition: "transform 0.3s, border-color 0.3s",
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.transform = "translateY(-4px)";
+            e.currentTarget.style.borderColor = "var(--accent)";
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.transform = "translateY(0)";
+            e.currentTarget.style.borderColor = "var(--border)";
           }}>
-            <div style={{ fontSize: "32px", marginBottom: "16px" }}>🔑</div>
+            <div style={{ fontSize: "clamp(28px, 8vw, 32px)", marginBottom: "16px" }}>🔑</div>
             <h3 style={{
               fontFamily: "Syne, sans-serif",
-              fontSize: "20px",
+              fontSize: "clamp(16px, 4vw, 20px)",
               fontWeight: 700,
               color: "var(--text)",
               marginBottom: "12px"
             }}>No Passwords Required</h3>
             <p style={{
-              fontSize: "15px",
+              fontSize: "clamp(13px, 3vw, 15px)",
               color: "var(--text-muted)",
               lineHeight: 1.6
             }}>We never ask for your Instagram password or require you to log in via Meta. We only need your username to check your public follower list, making it 100% impossible for us to post, like, or modify your account.</p>
@@ -734,18 +867,27 @@ export default function HomePage() {
             background: "var(--surface)",
             border: "1px solid var(--border)",
             borderRadius: "16px",
-            padding: "32px"
+            padding: "clamp(20px, 5vw, 32px)",
+            transition: "transform 0.3s, border-color 0.3s",
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.transform = "translateY(-4px)";
+            e.currentTarget.style.borderColor = "var(--accent)";
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.transform = "translateY(0)";
+            e.currentTarget.style.borderColor = "var(--border)";
           }}>
-            <div style={{ fontSize: "32px", marginBottom: "16px" }}>🛡️</div>
+            <div style={{ fontSize: "clamp(28px, 8vw, 32px)", marginBottom: "16px" }}>🛡️</div>
             <h3 style={{
               fontFamily: "Syne, sans-serif",
-              fontSize: "20px",
+              fontSize: "clamp(16px, 4vw, 20px)",
               fontWeight: 700,
               color: "var(--text)",
               marginBottom: "12px"
             }}>AES-256 Encryption at Rest</h3>
             <p style={{
-              fontSize: "15px",
+              fontSize: "clamp(13px, 3vw, 15px)",
               color: "var(--text-muted)",
               lineHeight: 1.6
             }}>Military-grade database security. Your data is encrypted using AES-256-GCM before they are saved to our database. In the unlikely event of a server breach, your data remains completely unreadable.</p>
@@ -753,13 +895,13 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Stats bar */} 
+      {/* Stats bar */}
       <div
         style={{
           borderTop: "1px solid var(--border)",
           borderBottom: "1px solid var(--border)",
           background: "var(--surface)",
-          padding: "32px 24px",
+          padding: "clamp(24px, 6vw, 32px) clamp(16px, 5vw, 24px)",
         }}
       >
         <div
@@ -767,8 +909,8 @@ export default function HomePage() {
             maxWidth: "700px",
             margin: "0 auto",
             display: "grid",
-            gridTemplateColumns: "repeat(3, 1fr)",
-            gap: "24px",
+            gridTemplateColumns: "repeat(auto-fit, minmax(clamp(120px, 30vw, 180px), 1fr))",
+            gap: "clamp(16px, 4vw, 24px)",
             textAlign: "center",
           }}
         >
@@ -781,7 +923,7 @@ export default function HomePage() {
               <div
                 style={{
                   fontFamily: "Syne, sans-serif",
-                  fontSize: "32px",
+                  fontSize: "clamp(24px, 6vw, 32px)",
                   fontWeight: 800,
                   color: "var(--accent)",
                   letterSpacing: "-1px",
@@ -791,7 +933,7 @@ export default function HomePage() {
               </div>
               <div
                 style={{
-                  fontSize: "12px",
+                  fontSize: "clamp(10px, 2.5vw, 12px)",
                   color: "var(--text-muted)",
                   marginTop: "4px",
                   letterSpacing: "0.3px",
@@ -805,15 +947,18 @@ export default function HomePage() {
       </div>
 
       {/* CTA */}
-      <section style={{ padding: "100px 24px", textAlign: "center" }}>
+      <section style={{ padding: "clamp(60px, 12vw, 100px) clamp(16px, 5vw, 24px)", textAlign: "center" }}>
         <div style={{ maxWidth: "540px", margin: "0 auto" }}>
           <h2
             style={{
               fontFamily: "Syne, sans-serif",
-              fontSize: "clamp(28px, 4vw, 44px)",
+              fontSize: "clamp(28px, 6vw, 44px)",
               fontWeight: 800,
               letterSpacing: "-1px",
-              color: "var(--text)",
+              background:
+                "linear-gradient(135deg, #818cf8 0%, #6366f1 50%, #a78bfa 100%)",
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
               marginBottom: "16px",
             }}
           >
@@ -822,8 +967,8 @@ export default function HomePage() {
           <p
             style={{
               color: "var(--text-muted)",
-              marginBottom: "36px",
-              fontSize: "16px",
+              marginBottom: "24px",
+              fontSize: "clamp(14px, 3.5vw, 16px)",
             }}
           >
             Scroll back up and enter your Instagram username. Takes 10 seconds.
@@ -834,13 +979,39 @@ export default function HomePage() {
               background: "linear-gradient(135deg, #6366f1, #818cf8)",
               border: "none",
               borderRadius: "12px",
-              padding: "16px 36px",
-              fontSize: "16px",
+              padding: "clamp(12px, 3vw, 16px) clamp(24px, 6vw, 36px)",
+              fontSize: "clamp(14px, 3.5vw, 16px)",
               fontWeight: 700,
               color: "#fff",
               cursor: "pointer",
               fontFamily: "Syne, sans-serif",
               letterSpacing: "0.3px",
+              transition: "all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1)",
+              minHeight: "44px",
+              display: "inline-flex",
+              alignItems: "center",
+              justifyContent: "center",
+              boxShadow: "0 4px 20px rgba(99, 102, 241, 0.2)",
+            }}
+            onMouseEnter={(e) => {
+              (e.currentTarget as HTMLButtonElement).style.transform =
+                "translateY(-2px)";
+              (e.currentTarget as HTMLButtonElement).style.boxShadow =
+                "0 8px 32px rgba(99, 102, 241, 0.35)";
+            }}
+            onMouseLeave={(e) => {
+              (e.currentTarget as HTMLButtonElement).style.transform =
+                "translateY(0)";
+              (e.currentTarget as HTMLButtonElement).style.boxShadow =
+                "0 4px 20px rgba(99, 102, 241, 0.2)";
+            }}
+            onMouseDown={(e) => {
+              (e.currentTarget as HTMLButtonElement).style.transform =
+                "translateY(1px)";
+            }}
+            onMouseUp={(e) => {
+              (e.currentTarget as HTMLButtonElement).style.transform =
+                "translateY(-2px)";
             }}
           >
             Start Tracking — It&apos;s Free
@@ -852,17 +1023,31 @@ export default function HomePage() {
       <footer
         style={{
           borderTop: "1px solid var(--border)",
-          padding: "32px 24px",
+          padding: "clamp(24px, 5vw, 32px) clamp(16px, 5vw, 24px)",
           textAlign: "center",
           color: "var(--text-dim)",
-          fontSize: "13px",
+          fontSize: "clamp(11px, 2.5vw, 13px)",
         }}
       >
         <p>
           InstaTrack &bull;{" "}
           <Link
             href="/unsubscribe"
-            style={{ color: "var(--text-muted)", textDecoration: "none" }}
+            style={{
+              color: "var(--text-muted)",
+              textDecoration: "none",
+              transition: "color 0.2s",
+              borderBottom: "1px solid transparent",
+              paddingBottom: "2px",
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.color = "var(--accent)";
+              e.currentTarget.style.borderBottomColor = "var(--accent)";
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.color = "var(--text-muted)";
+              e.currentTarget.style.borderBottomColor = "transparent";
+            }}
           >
             Unsubscribe
           </Link>{" "}

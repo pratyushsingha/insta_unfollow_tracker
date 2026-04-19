@@ -53,8 +53,8 @@ export default function UnsubscribePage() {
       <nav
         style={{
           borderBottom: '1px solid var(--border)',
-          padding: '0 24px',
-          height: '60px',
+          padding: '0 clamp(16px, 5vw, 24px)',
+          height: '56px',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
@@ -65,7 +65,7 @@ export default function UnsubscribePage() {
           style={{
             fontFamily: 'Syne, sans-serif',
             fontWeight: 800,
-            fontSize: '18px',
+            fontSize: 'clamp(16px, 4vw, 18px)',
             letterSpacing: '-0.5px',
             color: 'var(--text)',
             textDecoration: 'none',
@@ -82,17 +82,17 @@ export default function UnsubscribePage() {
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          padding: '40px 24px',
+          padding: 'clamp(24px, 6vw, 40px) clamp(16px, 5vw, 24px)',
         }}
       >
         <div style={{ maxWidth: '440px', width: '100%' }}>
           {/* Icon + Title */}
-          <div style={{ textAlign: 'center', marginBottom: '40px' }}>
-            <div style={{ fontSize: '48px', marginBottom: '20px' }}>👋</div>
+          <div style={{ textAlign: 'center', marginBottom: 'clamp(24px, 6vw, 40px)' }}>
+            <div style={{ fontSize: 'clamp(36px, 10vw, 48px)', marginBottom: '20px' }}>👋</div>
             <h1
               style={{
                 fontFamily: 'Syne, sans-serif',
-                fontSize: '32px',
+                fontSize: 'clamp(28px, 6vw, 32px)',
                 fontWeight: 800,
                 letterSpacing: '-1px',
                 color: 'var(--text)',
@@ -104,7 +104,7 @@ export default function UnsubscribePage() {
             <p
               style={{
                 color: 'var(--text-muted)',
-                fontSize: '15px',
+                fontSize: 'clamp(14px, 3.5vw, 15px)',
                 lineHeight: 1.6,
               }}
             >
@@ -119,7 +119,7 @@ export default function UnsubscribePage() {
               background: 'var(--surface)',
               border: '1px solid var(--border)',
               borderRadius: '20px',
-              padding: '32px',
+              padding: 'clamp(24px, 6vw, 32px)',
               position: 'relative',
             }}
           >
@@ -138,11 +138,11 @@ export default function UnsubscribePage() {
 
             {state === 'success' ? (
               <div style={{ textAlign: 'center', padding: '8px 0' }}>
-                <div style={{ fontSize: '40px', marginBottom: '16px' }}>✅</div>
+                <div style={{ fontSize: 'clamp(32px, 10vw, 40px)', marginBottom: '16px' }}>✅</div>
                 <h3
                   style={{
                     fontFamily: 'Syne, sans-serif',
-                    fontSize: '18px',
+                    fontSize: 'clamp(16px, 4vw, 18px)',
                     fontWeight: 700,
                     color: 'var(--text)',
                     marginBottom: '10px',
@@ -153,7 +153,7 @@ export default function UnsubscribePage() {
                 <p
                   style={{
                     color: 'var(--text-muted)',
-                    fontSize: '14px',
+                    fontSize: 'clamp(13px, 3vw, 14px)',
                     lineHeight: 1.6,
                   }}
                 >
@@ -164,9 +164,20 @@ export default function UnsubscribePage() {
                   style={{
                     display: 'inline-block',
                     marginTop: '24px',
-                    fontSize: '13px',
+                    fontSize: 'clamp(12px, 3vw, 13px)',
                     color: 'var(--accent)',
                     textDecoration: 'none',
+                    padding: '8px 12px',
+                    borderRadius: '6px',
+                    transition: 'all 0.2s',
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.background = 'rgba(99,102,241,0.1)';
+                    (e.currentTarget as HTMLElement).style.transform = 'translateX(-2px)';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.background = 'transparent';
+                    (e.currentTarget as HTMLElement).style.transform = 'translateX(0)';
                   }}
                 >
                   ← Back to home
@@ -178,7 +189,7 @@ export default function UnsubscribePage() {
                   <label
                     style={{
                       display: 'block',
-                      fontSize: '12px',
+                      fontSize: 'clamp(10px, 2.5vw, 12px)',
                       fontWeight: 600,
                       letterSpacing: '0.5px',
                       textTransform: 'uppercase',
@@ -199,19 +210,22 @@ export default function UnsubscribePage() {
                       background: 'var(--bg)',
                       border: '1px solid var(--border-2)',
                       borderRadius: '10px',
-                      padding: '13px 14px',
-                      fontSize: '15px',
+                      padding: 'clamp(11px, 3vw, 13px) 14px',
+                      fontSize: 'clamp(14px, 3.5vw, 15px)',
                       color: 'var(--text)',
                       outline: 'none',
                       fontFamily: 'DM Sans, sans-serif',
-                      transition: 'border-color 0.2s',
+                      transition: 'border-color 0.2s, box-shadow 0.2s',
+                      minHeight: '44px',
                     }}
-                    onFocus={(e) =>
-                      (e.target.style.borderColor = 'var(--red)')
-                    }
-                    onBlur={(e) =>
-                      (e.target.style.borderColor = 'var(--border-2)')
-                    }
+                    onFocus={(e) => {
+                      e.target.style.borderColor = 'var(--red)';
+                      e.target.style.boxShadow = '0 0 0 3px rgba(248, 113, 113, 0.1)';
+                    }}
+                    onBlur={(e) => {
+                      e.target.style.borderColor = 'var(--border-2)';
+                      e.target.style.boxShadow = 'none';
+                    }}
                   />
                 </div>
 
@@ -222,14 +236,15 @@ export default function UnsubscribePage() {
                     checked={deleteData}
                     onChange={(e) => setDeleteData(e.target.checked)}
                     style={{
-                      marginTop: '3px',
+                      marginTop: '6px',
                       accentColor: 'var(--red)',
-                      width: '16px',
-                      height: '16px',
-                      cursor: 'pointer'
+                      width: '18px',
+                      height: '18px',
+                      cursor: 'pointer',
+                      flexShrink: 0,
                     }}
                   />
-                  <label htmlFor="deleteData" style={{ fontSize: '14px', color: 'var(--text-muted)', cursor: 'pointer', lineHeight: 1.5 }}>
+                  <label htmlFor="deleteData" style={{ fontSize: 'clamp(13px, 3vw, 14px)', color: 'var(--text-muted)', cursor: 'pointer', lineHeight: 1.5 }}>
                     Delete all my historical follower data from the database
                   </label>
                 </div>
@@ -238,14 +253,19 @@ export default function UnsubscribePage() {
                   <div
                     style={{
                       background: 'rgba(248,113,113,0.08)',
-                      border: '1px solid rgba(248,113,113,0.2)',
+                      border: '1px solid rgba(248,113,113,0.3)',
                       borderRadius: '8px',
                       padding: '12px 14px',
                       marginBottom: '16px',
-                      fontSize: '13px',
+                      fontSize: 'clamp(12px, 3vw, 13px)',
                       color: 'var(--red)',
+                      animation: 'slideInLeft 0.3s ease',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '8px',
                     }}
                   >
+                    <span style={{ fontSize: '16px' }}>⚠️</span>
                     {message}
                   </div>
                 )}
@@ -261,26 +281,73 @@ export default function UnsubscribePage() {
                         : 'rgba(248,113,113,0.15)',
                     border: '1px solid rgba(248,113,113,0.3)',
                     borderRadius: '10px',
-                    padding: '14px',
-                    fontSize: '15px',
+                    padding: 'clamp(12px, 3vw, 14px)',
+                    fontSize: 'clamp(14px, 3.5vw, 15px)',
                     fontWeight: 700,
                     color: state === 'loading' ? 'var(--text-muted)' : 'var(--red)',
                     cursor: state === 'loading' ? 'not-allowed' : 'pointer',
                     fontFamily: 'Syne, sans-serif',
-                    transition: 'background 0.2s',
+                    transition: 'all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1)',
+                    minHeight: '44px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    boxShadow:
+                      state === 'loading'
+                        ? 'none'
+                        : '0 4px 12px rgba(248,113,113,0.15)',
+                  }}
+                  onMouseEnter={(e) => {
+                    if (state !== 'loading') {
+                      (e.currentTarget as HTMLButtonElement).style.transform =
+                        'translateY(-2px)';
+                      (e.currentTarget as HTMLButtonElement).style.boxShadow =
+                        '0 8px 24px rgba(248,113,113,0.25)';
+                      e.currentTarget.style.background = 'rgba(248,113,113,0.2)';
+                    }
+                  }}
+                  onMouseLeave={(e) => {
+                    (e.currentTarget as HTMLButtonElement).style.transform =
+                      'translateY(0)';
+                    (e.currentTarget as HTMLButtonElement).style.boxShadow =
+                      '0 4px 12px rgba(248,113,113,0.15)';
+                    e.currentTarget.style.background = 'rgba(248,113,113,0.15)';
+                  }}
+                  onMouseDown={(e) => {
+                    if (state !== 'loading')
+                      (e.currentTarget as HTMLButtonElement).style.transform =
+                        'translateY(1px)';
+                  }}
+                  onMouseUp={(e) => {
+                    if (state !== 'loading')
+                      (e.currentTarget as HTMLButtonElement).style.transform =
+                        'translateY(-2px)';
                   }}
                 >
-                  {state === 'loading' ? 'Processing...' : 'Unsubscribe Me'}
+                  {state === 'loading' ? (
+                    <span style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                      <span style={{ display: 'inline-block', animation: 'float-up 1.5s ease infinite' }}>⏳</span>
+                      Processing...
+                    </span>
+                  ) : (
+                    'Unsubscribe Me'
+                  )}
                 </button>
 
                 <div style={{ textAlign: 'center', marginTop: '20px' }}>
                   <Link
                     href="/"
                     style={{
-                      fontSize: '13px',
+                      fontSize: 'clamp(12px, 3vw, 13px)',
                       color: 'var(--text-muted)',
                       textDecoration: 'none',
+                      padding: '8px 12px',
+                      borderRadius: '6px',
+                      display: 'inline-block',
+                      transition: 'background 0.2s',
                     }}
+                    onMouseEnter={(e) => (e.currentTarget.style.background = 'rgba(99,102,241,0.1)')}
+                    onMouseLeave={(e) => (e.currentTarget.style.background = 'transparent')}
                   >
                     ← Back to home
                   </Link>
