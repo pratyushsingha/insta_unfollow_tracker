@@ -1,7 +1,7 @@
 import type { NextConfig } from "next";
 
-const nextConfig: NextConfig = {
-  /* config options here */
+const nextConfig:NextConfig = {
+  serverExternalPackages: ["mongoose", "bullmq", "ioredis", "apify-client"],
 };
 
 export default nextConfig;
