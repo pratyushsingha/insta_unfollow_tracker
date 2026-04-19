@@ -1,5 +1,6 @@
 import { connectDB } from "@/lib/db";
 import { User } from "@/models/user";
+import { followerQueue } from "@/lib/queue";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
@@ -41,6 +42,14 @@ export async function POST(req: NextRequest) {
         existing.isActive = true;
         existing.instaUsername = cleanUsername;
         await existing.save();
+
+        // Trigger immediate check for returning user
+        await followerQueue.add(`check-${existing._id}`, {
+          userId: existing._id.toString(),
+          email: existing.email,
+          instaUsername: cleanUsername,
+        });
+
         return NextResponse.json({
           message: `Welcome back! We'll start tracking @${cleanUsername} again.`,
           reactivated: true,
@@ -59,6 +68,14 @@ export async function POST(req: NextRequest) {
       isActive: true,
     });
     await user.save();
+
+    // TRIGGER IMMEDIATE CHECK & WELCOME EMAIL
+    await followerQueue.add(`check-${user._id}`, {
+      userId: user._id.toString(),
+      email: user.email,
+      instaUsername: cleanUsername,
+    });
+
     return NextResponse.json(
       {
         message: `You're signed up! We'll start tracking @${cleanUsername} and email you tomorrow morning.`,
