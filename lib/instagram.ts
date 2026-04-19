@@ -74,7 +74,7 @@ export async function fetchFollowers(
       // Extract just the usernames
       const followers = (items as ApifyFollower[])
         .map((item) => item.username)
-        .filter(Boolean);
+        .filter((u): u is string => !!u);
 
       await logInfo(
         `Fetched ${followers.length} followers for @${instaUsername} using key index ${currentTokenIndex}`,

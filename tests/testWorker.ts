@@ -1,7 +1,7 @@
 import 'dotenv/config'
 import { connectDB } from '../lib/db'
 import { followerQueue } from '../lib/queue'
-import { User } from '../models/User'
+import { User } from '../models/user'
 
 async function main() {
     await connectDB()

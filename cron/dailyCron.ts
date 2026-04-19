@@ -1,7 +1,7 @@
 import 'dotenv/config'
 import cron from 'node-cron'
 import { followerQueue } from '../lib/queue'
-import { User } from '../models/User'
+import { User } from '../models/user'
 import { connectDB } from '@/lib/db'
 
 async function enqueueAllUsers(): Promise<void> {

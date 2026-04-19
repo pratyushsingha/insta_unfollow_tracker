@@ -7,7 +7,7 @@ import {
   sendUnfollowerReport,
   sendAccountErrorEmail,
 } from "../lib/mailer";
-import { User } from "../models/User";
+import { User } from "../models/user";
 import mongoose from "mongoose";
 import { Snapshot } from "@/models/snapshot";
 import { connectDB } from "@/lib/db";
