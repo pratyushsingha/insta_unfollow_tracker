@@ -151,7 +151,7 @@ function wrapEmail(content: string, previewText: string = ""): string {
       <tr>
         <td class="footer">
           <p style="font-size: 12px; margin-bottom: 8px;">
-            Tracking @\${instaUsername} • 8:00 AM IST Reports
+            Tracking @{{instaUsername}} • 8:00 AM IST Reports
           </p>
           <a href="${BASE_URL}/unsubscribe" style="color: #475569; text-decoration: underline;">Unsubscribe</a>
           <p style="margin-top: 16px;">© ${new Date().getFullYear()} InstaTrack. Not affiliated with Instagram.</p>
@@ -185,11 +185,14 @@ export async function sendWelcomeEmail(to: string, instaUsername: string): Promi
     <a href="https://instagram.com/${instaUsername}" class="btn">View My Profile</a>
   `;
 
+  const finalHtml = wrapEmail(content, "Welcome to InstaTrack!")
+    .replace(/{{instaUsername}}/g, instaUsername);
+
   const { error } = await resend.emails.send({
     from: FROM,
     to,
     subject: `✅ Tracking active for @${instaUsername}`,
-    html: wrapEmail(content.replace(/\${instaUsername}/g, instaUsername), "Welcome to InstaTrack!"),
+    html: finalHtml,
   });
 
   if (error) throw new Error(`[Mailer] Error: ${error.message}`);
@@ -239,13 +242,16 @@ export async function sendUnfollowerReport(
     `;
   }
 
+  const finalHtml = wrapEmail(content, hasUnfollowers ? "New unfollowers detected." : "All good!")
+    .replace(/{{instaUsername}}/g, instaUsername);
+
   const { error } = await resend.emails.send({
     from: FROM,
     to,
     subject: hasUnfollowers 
       ? `👀 ${unfollowers.length} people unfollowed you` 
       : `✅ No unfollowers today for @${instaUsername}`,
-    html: wrapEmail(content.replace(/\${instaUsername}/g, instaUsername), hasUnfollowers ? "New unfollowers detected." : "All good!"),
+    html: finalHtml,
   });
 
   if (error) throw new Error(`[Mailer] Error: ${error.message}`);
@@ -268,11 +274,14 @@ export async function sendAccountErrorEmail(to: string, instaUsername: string, r
     <a href="${BASE_URL}" class="btn">Resume Tracking</a>
   `;
 
+  const finalHtml = wrapEmail(content, "Action required for your account.")
+    .replace(/{{instaUsername}}/g, instaUsername);
+
   const { error } = await resend.emails.send({
     from: FROM,
     to,
     subject: `⚠️ Action required for @${instaUsername}`,
-    html: wrapEmail(content.replace(/\${instaUsername}/g, instaUsername), "Action required for your account."),
+    html: finalHtml,
   });
 
   if (error) throw new Error(`[Mailer] Error: ${error.message}`);
@@ -289,11 +298,14 @@ export async function sendUnsubscribeEmail(to: string, instaUsername: string): P
     <a href="${BASE_URL}" class="btn">Sign Up Again</a>
   `;
 
+  const finalHtml = wrapEmail(content, "You've been unsubscribed.")
+    .replace(/{{instaUsername}}/g, instaUsername);
+
   const { error } = await resend.emails.send({
     from: FROM,
     to,
     subject: `👋 Unsubscribed from InstaTrack`,
-    html: wrapEmail(content.replace(/\${instaUsername}/g, instaUsername), "You've been unsubscribed."),
+    html: finalHtml,
   });
 
   if (error) throw new Error(`[Mailer] Error: ${error.message}`);
