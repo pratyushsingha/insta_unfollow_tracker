@@ -1,5 +1,5 @@
 import { Queue } from "bullmq";
-import IORedis from "ioredis";
+import { redis as connection } from "./redis";
 
 export interface FollowerJobData {
   userId: string;
@@ -7,9 +7,7 @@ export interface FollowerJobData {
   instaUsername: string;
 }
 
-export const connection = new IORedis("redis://localhost:6379", {
-  maxRetriesPerRequest: null,
-});
+export { connection };
 
 export const followerQueue = new Queue<FollowerJobData>("follower-check", {
   connection,
