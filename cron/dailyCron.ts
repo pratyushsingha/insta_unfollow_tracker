@@ -1,8 +1,14 @@
 import 'dotenv/config'
 import cron from 'node-cron'
+import * as Sentry from "@sentry/nextjs"
 import { followerQueue } from '../lib/queue'
 import { User } from '../models/user'
 import { connectDB } from '@/lib/db'
+
+Sentry.init({
+  dsn: process.env.SENTRY_DSN,
+  tracesSampleRate: 1.0,
+});
 
 async function enqueueAllUsers(): Promise<void> {
   console.log('\n[Cron] Starting daily follower check...')

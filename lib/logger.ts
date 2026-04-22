@@ -1,5 +1,6 @@
 import { Log } from "@/models/Log";
 import { connectDB } from "@/lib/db";
+import * as Sentry from "@sentry/nextjs";
 
 export async function logInfo(message: string, meta?: Record<string, any>) {
   console.log(`[INFO] ${message}`, meta || "");
@@ -23,6 +24,11 @@ export async function logWarn(message: string, meta?: Record<string, any>) {
 
 export async function logError(message: string, meta?: Record<string, any>) {
   console.error(`[ERROR] ${message}`, meta || "");
+  
+  Sentry.captureException(new Error(message), {
+    extra: meta
+  });
+
   try {
     await connectDB();
     await Log.create({ level: "error", message, meta });

@@ -12,7 +12,13 @@ import mongoose from "mongoose";
 import { Snapshot } from "@/models/snapshot";
 import { connectDB } from "@/lib/db";
 import { decryptFollowers, encryptFollowers } from "@/lib/crypto";
+import * as Sentry from "@sentry/nextjs";
 import { logError, logInfo, logWarn } from "@/lib/logger";
+
+Sentry.init({
+  dsn: process.env.SENTRY_DSN,
+  tracesSampleRate: 1.0,
+});
 
 const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
 
